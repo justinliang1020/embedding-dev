@@ -1,6 +1,7 @@
 import { ChromaClient, CohereEmbeddingFunction, Collection, OpenAIEmbeddingFunction } from "chromadb";
 import { Output, models } from "@/utils/utils";
 import { NextResponse } from "next/server";
+import { PalmEmbeddingFunction } from "@/utils/palm";
 const client = new ChromaClient({
 
     path: `http://${process.env.CHROMA_SERVER_HOST}:${process.env.CHROMA_SERVER_HTTP_PORT}`
@@ -26,6 +27,9 @@ export async function POST(req: Request) {
     if (process.env.COHERE_API_KEY === undefined) {
         throw Error("no cohere api key")
     }
+    if (process.env.PALM_API_KEY === undefined) {
+        throw Error("no palm api key")
+    }
     const res: { [key: string]: Output[] } = {};
     for (const model of models) {
         const collectionName = `${model.name}`
@@ -45,6 +49,12 @@ export async function POST(req: Request) {
                     embeddingFunction: new CohereEmbeddingFunction({
                         cohere_api_key: process.env.COHERE_API_KEY
                     })
+                })
+                break;
+            case "embedding-gecko-001":
+                collection = await client.getCollection({
+                    name: collectionName,
+                    embeddingFunction: new PalmEmbeddingFunction(process.env.PALM_API_KEY),
                 })
                 break;
         }

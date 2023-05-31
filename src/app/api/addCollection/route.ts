@@ -1,8 +1,7 @@
-import { NextRequest } from "next/server";
 import { ChromaClient, OpenAIEmbeddingFunction, CohereEmbeddingFunction, Collection } from "chromadb";
 import { models } from "@/utils/utils";
 import { v4 } from "uuid";
-
+import { PalmEmbeddingFunction } from "@/utils/palm";
 function splitStringIntoChunks(str: string, chunkLength: number): string[] {
     const chunks: string[] = [];
     let currentPosition = 0;
@@ -15,7 +14,6 @@ function splitStringIntoChunks(str: string, chunkLength: number): string[] {
 
     return chunks;
 }
-
 export async function POST(req: Request) {
     console.log('hello')
     const body = await req.json();
@@ -28,9 +26,11 @@ export async function POST(req: Request) {
         throw Error("no openai api key")
     }
     if (process.env.COHERE_API_KEY === undefined) {
-        throw Error("no cohere api key")
-    }    
-
+        throw Error("no cohere api key");
+    }
+    if (process.env.PALM_API_KEY === undefined) {
+        throw Error("no palm api key");
+    }
     // uncomment to reset db
     // client.reset();
     // return
@@ -40,7 +40,7 @@ export async function POST(req: Request) {
         let collection: Collection;
         switch (model.name) {
             case "text-embedding-ada-002":
-                collection = await client.createCollection({
+                collection = await client.getOrCreateCollection({
                     name: collectionName,
                     embeddingFunction: new OpenAIEmbeddingFunction({
                         openai_api_key: process.env.OPENAI_API_KEY,
@@ -48,11 +48,17 @@ export async function POST(req: Request) {
                 })
                 break;
             case "embed-english-v2.0":
-                collection = await client.createCollection({
+                collection = await client.getOrCreateCollection({
                     name: collectionName,
                     embeddingFunction: new CohereEmbeddingFunction({
                         cohere_api_key: process.env.COHERE_API_KEY,
                     })
+                })
+                break;
+            case "embedding-gecko-001":
+                collection = await client.getOrCreateCollection({
+                    name: collectionName,
+                    embeddingFunction: new PalmEmbeddingFunction(process.env.PALM_API_KEY),
                 })
                 break;
         }
@@ -62,7 +68,7 @@ export async function POST(req: Request) {
         })
         console.log(await collection.query({
             query_text: "hello",
-            
+            n_results: 1,
         }))
     }
     console.log(await client.listCollections());

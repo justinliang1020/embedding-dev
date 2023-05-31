@@ -9,12 +9,7 @@ type FormData = {
 
 export default function Home() {
   const initialOutputs = {};
-  const [outputs, setOutputs] = useState<{ [key: string]: Output[] }>({
-    "text-embedding-ada-002": [{
-      text: `
-`,
-    }],
-  })
+  const [outputs, setOutputs] = useState<{ [key: string]: Output[] }>({})
 
   const [query, setQuery] = useState("");
   const makeApiCall = async (event: FormEvent<HTMLFormElement>) => {
@@ -28,7 +23,7 @@ export default function Home() {
     setOutputs(await res.json());
   }
   return (
-    <main className="flex min-h-screen flex-col items-center space-y-5 p-24">
+    <main className="flex h-screen flex-col items-center space-y-5 p-24">
       <h1 className="text-4xl font-bold text-center">
         embedding.dev
       </h1>
@@ -67,6 +62,10 @@ export default function Home() {
           </div>
         ))}
       </div>
+      <footer className="space-x-12 justify-self-end">
+        <a href="github.com" className="no-underline hover:underline text-blue-400">github</a>
+        <a href="https://www.trychroma.com/" className="no-underline hover:underline text-blue-400">powered by chroma</a>
+      </footer>
     </main>
   )
 }
