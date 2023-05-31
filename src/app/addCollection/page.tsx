@@ -24,8 +24,8 @@ export default function AddCollectionPage() {
                 <h1>Add Collection Page</h1>
             </div>
             <form className="flex flex-col space-y-10" onSubmit={handleSubmit(onSubmit)}>
-                <input type="text" {...register("title", {required: true})}/>
-                <textarea {...register("text", { required: true })}> 
+                <input type="text" {...register("title", {required: true})} className="border-gray-900 border-2"/>
+                <textarea {...register("text", { required: true })} className="border-gray-900 border-2" > 
                 </textarea>
                 <button>submit</button>
             </form>

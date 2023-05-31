@@ -15,7 +15,9 @@ function splitStringIntoChunks(str: string, chunkLength: number): string[] {
     return chunks;
 }
 export async function POST(req: Request) {
-    console.log('hello')
+    if (process.env.PROD == "true") {
+        throw Error("no collection upload in prod")
+    }
     const body = await req.json();
     // import chroma client, do text splitting, add documents to new collection, make a collection for each model
     const chunks = splitStringIntoChunks(body.text, 500);

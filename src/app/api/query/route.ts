@@ -62,16 +62,17 @@ export async function POST(req: Request) {
             query_text: query,
             n_results: 3,
         })
-        // console.log(queryResponse);
         const outputs: Output[] = [];
         if (queryResponse.documents[0] == null) {
             throw Error("n")
         }
-        for (const document of queryResponse.documents[0]) {
-            outputs.push({text: document})
+        if (queryResponse.documents == null || queryResponse.distances == null) {
+            throw Error("invalid query response")
         }
-        res[model.name]=outputs;
+        for (let i = 0; i < queryResponse.documents[0].length; i++) {
+            outputs.push({ text: queryResponse.documents[0][i], distance: queryResponse.distances[0][i] })
+        }
+        res[model.name] = outputs;
     }
-    console.log(res);
     return new Response(JSON.stringify(res));
 }

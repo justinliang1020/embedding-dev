@@ -3,14 +3,9 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { FormEvent, useState } from "react";
 import { v4 as uuidv4, v4 } from "uuid";
 import { Output, models } from "@/utils/utils";
-type FormData = {
-  query: string;
-}
 
 export default function Home() {
-  const initialOutputs = {};
   const [outputs, setOutputs] = useState<{ [key: string]: Output[] }>({})
-
   const [query, setQuery] = useState("");
   const makeApiCall = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -44,7 +39,7 @@ export default function Home() {
       <p>
         current dataset: United States Wikipedia Page
       </p>
-      <div className="h-full">
+      <div className="flex-initial">
         {models.map((model) => (
           <div key={model.name} className="flex gap-6 tracking-wide mb-10">
             <div className="items-center h-max align-middle">
@@ -56,13 +51,16 @@ export default function Home() {
               {outputs[model.name]?.map((output) => (
                 <div key={v4()} className="border-2 border-gray-800 rounded-xl p-2">
                   {output.text}
+                  <div className="text-center text-gray-500 p-2">
+                    Distance: {output.distance}
+                  </div>
                 </div>
               ))}
             </div>
           </div>
         ))}
       </div>
-      <footer className="space-x-12 justify-self-end">
+      <footer className="space-x-12 justify-self-end pb-2">
         <a href="github.com" className="no-underline hover:underline text-blue-400">github</a>
         <a href="https://www.trychroma.com/" className="no-underline hover:underline text-blue-400">powered by chroma</a>
       </footer>

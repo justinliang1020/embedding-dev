@@ -12,4 +12,5 @@ export const models: Model[] = [
 ]
 export type Output = {
     text: string;
+    distance: number;
 }
