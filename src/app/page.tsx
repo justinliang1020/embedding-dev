@@ -61,7 +61,7 @@ export default function Home() {
         ))}
       </div>
       <footer className="space-x-12 justify-self-end pb-2">
-        <a href="github.com" className="no-underline hover:underline text-blue-400">github</a>
+        <a href="https://github.com/justinliang1020/embedding-dev" className="no-underline hover:underline text-blue-400">github</a>
         <a href="https://www.trychroma.com/" className="no-underline hover:underline text-blue-400">powered by chroma</a>
       </footer>
     </main>
