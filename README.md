@@ -1,3 +1,17 @@
+## embedding-dev
+
+Compare embedding retrieval models from Google, OpenAI, and Cohere.
+
+## Getting started
+
+TODO: write more descriptive instructions
+
+copy .env variables from .env.example
+
+run using npm
+
+add a document by visiting localhost:3000/addCollection
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
