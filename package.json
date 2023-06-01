@@ -14,6 +14,7 @@
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
     "@types/uuid": "^9.0.1",
+    "@vercel/analytics": "^1.0.1",
     "autoprefixer": "10.4.14",
     "chromadb": "^1.5.0",
     "cohere-ai": "^6.2.1",
