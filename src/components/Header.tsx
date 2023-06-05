@@ -1,11 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import ChromaLogo from "../../public/chroma-logo.svg" 
+
 export default function Header() {
     return (
         <div className="navbar bg-base-100">
             <div className="flex-1">
-                <a className="btn btn-ghost normal-case text-xl" href="https://www.embedding.dev/">embedding.dev</a>
+                <Link className="btn btn-ghost normal-case text-xl" href="/">embedding.dev</Link>
             </div>
             <div className="flex-none">
                 <ul className="menu menu-horizontal px-1 items-center">

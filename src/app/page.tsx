@@ -20,8 +20,10 @@ export default function Home() {
   return (
     <div className="flex max-w-6xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
       <Header />
-      {/* <main className="flex h-screen flex-col items-center space-y-5 p-24"> */}
-      <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4 sm:mt-20 mt-20 background-gradient">
+      <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4 mt-5 background-gradient">
+        <h1 className="font-bold sm:text-3xl text-xl pb-4">
+          Compare Embedding Models
+        </h1>
         <form className="space-x-2" onSubmit={makeApiCall}>
           <input
             type="text"
@@ -43,7 +45,7 @@ export default function Home() {
           {models.map((model) => (
             <div key={model.name} className="flex gap-6 tracking-wide mb-10">
               <div className="items-center h-max align-middle">
-                <h2 className="text-gray-500">{model.company}</h2>
+                <h2 className="text-gray-500 text-center">{model.company}</h2>
                 <h1 className="font-bold text-xl text-gray-950">{model.name}</h1>
                 <a href={model.link} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Read more</a>
               </div>
@@ -60,10 +62,6 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <footer className="space-x-12 justify-self-end pb-2">
-          <a href="https://github.com/justinliang1020/embedding-dev" className="no-underline hover:underline text-blue-400">github</a>
-          <a href="https://www.trychroma.com/" className="no-underline hover:underline text-blue-400">powered by chroma</a>
-        </footer>
       </main>
     </div>
   )
