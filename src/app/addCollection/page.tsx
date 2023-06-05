@@ -16,17 +16,22 @@ export default function AddCollectionPage() {
             }
             )
         })
-    } 
-
+    }
     return (
         <main className="flex min-h-screen flex-col items-center space-y-5 p-24">
             <div>
                 <h1>Add Collection Page</h1>
             </div>
-            <form className="flex flex-col space-y-10" onSubmit={handleSubmit(onSubmit)}>
-                <input type="text" {...register("title", {required: true})} className="border-gray-900 border-2"/>
-                <textarea {...register("text", { required: true })} className="border-gray-900 border-2" > 
-                </textarea>
+            <form className="flex flex-col space-y-10 items-center" onSubmit={handleSubmit(onSubmit)}>
+                <label className="">
+                    Collection name:
+                    <input type="text" {...register("title", { required: true })} className="border-gray-300 border-2 rounded-xl p-4" />
+                </label>
+                <label>
+                    Content:
+                    <textarea {...register("text", { required: true })} className="border-gray-300 border-2 rounded-xl p-4" >
+                    </textarea>
+                </label>
                 <button>submit</button>
             </form>
         </main>
