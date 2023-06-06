@@ -23,12 +23,17 @@ export default function Home() {
     }, 100);
   }
   return (
-    <div className="flex max-w-6xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
+    <div className="flex max-w-6xl mx-auto flex-col justify-center py-2 min-h-screen">
       <Header />
-      <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4 mt-5 background-gradient">
+      <main className="flex flex-col flex-1 w-full items-center justify-center text-center px-4 mt-5 background-gradient">
+        {/* <main className="grid grid-cols-3 h-full"> */}
         <h1 className="font-bold sm:text-3xl text-xl pb-4">
           Compare Embedding Models
         </h1>
+        <div className="pb-2">
+          current document: United States Wikipedia Page
+          
+        </div>
         <form className="space-x-2" onSubmit={makeApiCall}>
           <input
             type="text"

@@ -12,7 +12,7 @@ export default function Header() {
                 <ul className="menu menu-horizontal px-1 items-center">
                     <li>
                         <a href="https://trychroma.com">
-                            Powered by <div className="font-bold -ml-1">chroma</div>
+                            powered by <div className="font-bold -ml-1">chroma</div>
                             <Image
                                 src={ChromaLogo}
                                 alt="chroma logo"
