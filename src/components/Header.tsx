@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import ChromaLogo from "../../public/chroma-logo.svg" 
+import ChromaLogo from "../../public/chroma-logo.svg"
 
 export default function Header() {
     return (
@@ -10,19 +10,19 @@ export default function Header() {
             </div>
             <div className="flex-none">
                 <ul className="menu menu-horizontal px-1 items-center">
-                    <li><a href="https://trychroma.com">
-                        {/* TODO: fix height of chroma image */}
-                        <Image
-                            src={ChromaLogo}
-                            alt="chroma logo"
-                            height={30}
-                        />
-                        Powered by <div className="font-bold -ml-1">chroma</div>
-                    </a></li>
+                    <li>
+                        <a href="https://trychroma.com">
+                            Powered by <div className="font-bold -ml-1">chroma</div>
+                            <Image
+                                src={ChromaLogo}
+                                alt="chroma logo"
+                                height={25}
+                            />
+                        </a>
+                    </li>
                     <li>
                         <a href="https://github.com/justinliang1020/embedding-dev   ">
                             <Github />
-                            Github
                         </a>
                     </li>
                 </ul>

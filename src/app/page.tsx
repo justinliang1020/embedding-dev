@@ -7,8 +7,10 @@ import Header from "../components/Header";
 export default function Home() {
   const [outputs, setOutputs] = useState<{ [key: string]: Output[] }>({})
   const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(false);
   const makeApiCall = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoading(true);
     const res = await fetch("api/query", {
       method: "POST",
       body: JSON.stringify({
@@ -16,6 +18,9 @@ export default function Home() {
       })
     });
     setOutputs(await res.json());
+    setTimeout(() => {
+      setLoading(false);
+    }, 100);
   }
   return (
     <div className="flex max-w-6xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
@@ -27,20 +32,22 @@ export default function Home() {
         <form className="space-x-2" onSubmit={makeApiCall}>
           <input
             type="text"
-            className="rounded-xl border-2 border-gray-300 p-4"
+            className="input input-bordered"
             placeholder="enter a query"
             value={query}
             onChange={e => {
               setQuery(e.target.value)
             }}
           />
-          <button className="rounded-xl border-2 border-gray-300 p-4 bg-gray-100">
-            submit
-          </button>
+          {!loading && (
+            <button className="btn">Submit</button>
+          )}
+          {loading && (
+            <button disabled className="btn align-middle">
+              <span className="loading loading-spinner loading-md"></span>
+            </button>
+          )}
         </form>
-        <p>
-          current dataset: United States Wikipedia Page
-        </p>
         <div className="flex-initial">
           {models.map((model) => (
             <div key={model.name} className="flex gap-6 tracking-wide mb-10">
