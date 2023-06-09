@@ -2,7 +2,6 @@
 import Header from "@/components/Header";
 import { useState } from "react";
 import { CollectionMetadata, ModelName, RetrievalMethod } from "@/utils/utils";
-import FileUpload from "@/components/FileUpload";
 
 export default function Lab() {
     const [model, setModel] = useState<ModelName>("text-embedding-ada-002")
