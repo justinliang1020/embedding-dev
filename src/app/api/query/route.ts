@@ -24,7 +24,7 @@ export async function POST(req: Request) {
         name: collectionId
     });
     const collectionMetadata = collection.metadata as CollectionMetadata;
-    console.log("eoiwjrwoe", collectionMetadata)
+    // console.log("eoiwjrwoe", collectionMetadata)
     let embeddingFunction: IEmbeddingFunction;
     switch (collectionMetadata.embeddingModel) {
         case ("text-embedding-ada-002"):
@@ -44,18 +44,37 @@ export async function POST(req: Request) {
             break;
     };
     collection.embeddingFunction = embeddingFunction;
+
+    // TODO: fix hack
+    const length = (await collection.get()).documents.length;
+
     const query = await collection.query({
         queryTexts: queryContent,
+        nResults: Math.min(length, 10)
     });
     const results: Result[] = [];
-    for (const document of query.documents[0]) {
-        if (document !== null) {
-            results.push({
-                content: document,
-                distance: 0.3,
-            })
-        }
+    if (query.distances === null) {
+        throw("no distances")
     }
-    console.log(results.length);
+    for (let i = 0; i < query.documents[0].length; i++) {
+        const document = query.documents[0][i];
+        const distance = query.distances[0][i];
+        if (document === null) {
+            throw ("null document")
+        }
+        results.push({
+            content: document,
+            distance: distance,
+        })
+    }
+
+    // for (const document of query.documents[0]) {
+    //     if (document !== null) {
+    //         results.push({
+    //             content: document,
+    //             distance: 0.3,
+    //         })
+    //     }
+    // }
     return NextResponse.json(JSON.stringify(results));
 }

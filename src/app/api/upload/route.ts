@@ -123,12 +123,11 @@ export async function POST(req: Request) {
             break;
     }
     // console.log("texts length", texts.length)
-
     // const results = await collection.query({
     //     queryTexts: "gaming",
     //     nResults: 1,
     // });
-
+    console.log("Created collection with collectionId:", collectionId)
     // console.log('results', results);
     // split content and add to metadata
     return NextResponse.json({ "collectionId": collectionId })
