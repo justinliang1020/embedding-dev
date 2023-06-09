@@ -17,7 +17,7 @@
     "@vercel/analytics": "^1.0.1",
     "autoprefixer": "10.4.14",
     "chromadb": "^1.5.2",
-    "cohere-ai": "^5.1.0",
+    "cohere-ai": "^6.2.1",
     "daisyui": "^3.0.3",
     "encoding": "^0.1.13",
     "eslint": "8.41.0",
