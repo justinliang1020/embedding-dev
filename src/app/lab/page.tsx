@@ -1,23 +1,24 @@
 "use client"
 import Header from "@/components/Header";
 import { useState } from "react";
-import { CollectionMetadata, ModelName, RetrievalMethod } from "@/utils/utils";
-
+import { CollectionMetadata, ModelName, Query, RetrievalMethod } from "@/utils/utils";
+import { Result } from "@/utils/utils";
 export default function Lab() {
     const [model, setModel] = useState<ModelName>("text-embedding-ada-002")
-    const [chunkSize, setChunkSize] = useState(1000)
+    const [chunkSize, setChunkSize] = useState(1000);
     const [retrievalMethod, setRetrievalMethod] = useState<RetrievalMethod>("query-similarity")
-
     const [collectionId, setCollectionId] = useState("");
     const [collectionName, setCollectionName] = useState("");
-    const results = ["hi there", "my name is justin", "who are yoU"]
+    const [results, setResults] = useState<Result[]>([
+        { content: "hi", distance: 0.32 },
+        { content: "meow", distance: 0.3321 }]);
     const [file, setFile] = useState<File | null>(null);
+    const [queryContent, setQueryContent] = useState("");
     const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         setFile(e.target.files ? e.target.files[0] : null);
     };
     const onCollectionSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         const formData = new FormData();
         if (file) {
             setCollectionName(file.name);
@@ -37,6 +38,20 @@ export default function Lab() {
         const data = await res.json() as { collectionId: string };
         setCollectionId(data.collectionId);
         console.log(data);
+    };
+    const onQuerySubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const query: Query = {
+            content: queryContent,
+            collectionId: collectionId
+        }
+        const res = await fetch("/api/query", {
+            method: "POST",
+            body: JSON.stringify(query),
+
+        });
+        const data = await res.json();
+        setResults(JSON.parse(data) as Result[]);
     };
     return (
         <div className="flex max-w-6xl mx-auto flex-col justify-center py-2 min-h-screen">
@@ -70,17 +85,20 @@ export default function Lab() {
                             </select>
                         </label>
                         {/* add info tooltip */}
-                        <input type="file" onChange={onFileChange} className="file-input file-input-bordered file-input-xs w-full max-w-xs" />
-                        <button className="btn max-w-xs" >Submit</button>
+                        <label>
+                            Data Source
+                            <input type="file" onChange={onFileChange} className="file-input file-input-bordered file-input-xs w-full max-w-xs" />
+                        </label>
+                        <button className="btn max-w-xs" >Save collection</button>
                     </form>
                 </div>
                 <div className="flex flex-col col-span-2 border border-gray-800 h-full">
                     <h1 className="text-2xl">dataset: {collectionName}</h1>
-                    <Carousel results={results} className="h-full" />
-                    <form>
+                    <Carousel results={results} />
+                    <form className="space-x-2" onSubmit={onQuerySubmit}>
                         <label>Query:</label>
-                        <input type="text" className="input input-bordered" />
-                        <button className="btn">hello</button>
+                        <input type="text" className="input input-bordered" value={queryContent} onChange={e => setQueryContent(e.target.value)} />
+                        <button className="btn btn-success">Submit</button>
                     </form>
                 </div>
             </main>
@@ -88,30 +106,34 @@ export default function Lab() {
     )
 }
 
-const Carousel = ({ results, className }: { results: string[], className: string }) => {
+const Carousel = ({ results }: { results: Result[] }) => {
+    const [currentIndex, setCurrentIndex] = useState(0);
     const length = results.length;
-    const makeSlideID = (index: number) => `slide${index + 1}`;
+
+    const previousSlide = () => {
+        setCurrentIndex((currentIndex - 1 + length) % length);
+    }
+
+    const nextSlide = () => {
+        setCurrentIndex((currentIndex + 1) % length);
+    }
     return (
-        <div className={`carousel w-full ${className}`}>
-            {results.map((result: string | undefined, index: number) => {
-                const currentSlideID = makeSlideID(index);
-                const previousSlideID = makeSlideID((index - 1 + length) % length);
-                const nextSlideID = makeSlideID((index + 1) % length);
-                return (
-                    <div key={currentSlideID} id={currentSlideID} className="carousel-item relative w-full">
-                        <div className="w-full h-full">
-                            {result}
-                            <br />
-                            {index + 1} / {length}
-                        </div>
-                        <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                            <a href={`#${previousSlideID}`} className="btn btn-circle">❮</a>
-                            <a href={`#${nextSlideID}`} className="btn btn-circle">❯</a>
-                        </div>
+        <div className="carousel w-full h-full items-center">
+            {results.map((result, index) => (
+                <div
+                    key={index}
+                    className={`carousel-item relative h-full w-full ${index === currentIndex ? 'block' : 'hidden'}`}
+                >
+                    <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                        <button onClick={previousSlide} className="btn btn-circle">❮</button>
+                        {result.content}
+                        <button onClick={nextSlide} className="btn btn-circle">❯</button>
                     </div>
-                );
-            })}
-        </div >
+                    <div>
+                        {index + 1} / {length}
+                    </div>
+                </div>
+            ))}
+        </div>
     );
 };
-

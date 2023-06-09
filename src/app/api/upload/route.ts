@@ -122,21 +122,16 @@ export async function POST(req: Request) {
             })
             break;
     }
-    console.log("texts length", texts.length)
+    // console.log("texts length", texts.length)
 
-    const results = await collection.query({
-        queryTexts: "gaming",
-        nResults: 1,
-    });
+    // const results = await collection.query({
+    //     queryTexts: "gaming",
+    //     nResults: 1,
+    // });
 
-    console.log('results', results);
+    // console.log('results', results);
     // split content and add to metadata
     return NextResponse.json({ "collectionId": collectionId })
-}
-function sleep(ms: number): Promise<void> {
-    return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
 }
 
 const sampleContent = `

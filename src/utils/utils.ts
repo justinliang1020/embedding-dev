@@ -26,3 +26,12 @@ export type CollectionMetadata = {
     name: string,
 }
 
+export type Result = {
+    content: string,
+    distance: number,
+}
+
+export type Query = {
+    content: string,
+    collectionId: string,
+}
