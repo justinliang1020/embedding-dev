@@ -25,3 +25,4 @@ export type CollectionMetadata = {
     chunkSize: number,
     name: string,
 }
+

@@ -32,7 +32,7 @@ export default function Home() {
           </h1>
           <p>free, open-source, built on <a href="https://www.trychroma.com/" className="link">chroma</a></p>
         </div>
-        <div className="flex flex-row flex-1 w-full items-center justify-center text-center px-4 mt-5 background-gradient">
+        <div className="flex flex-col sm:flex-row flex-1 w-full items-center justify-center text-center px-4 mt-5 background-gradient">
           <ModuleCard name="lab" desc="Craft the perfect text-embedding retriever (UNDER CONSTRUCTION)" image={UndrawScience} />
           <ModuleCard name="compare" desc="Compare multiple embedding models simultaneously" image={UndrawCompare} />
         </div>

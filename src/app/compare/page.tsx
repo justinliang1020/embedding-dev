@@ -1,4 +1,6 @@
 "use client";
+import FileUpload from "@/components/FileUpload";
+import { getDocument } from "pdfjs-dist";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { FormEvent, useState } from "react";
 import { v4 as uuidv4, v4 } from "uuid";
@@ -6,6 +8,8 @@ import { Output, models } from "@/utils/utils";
 import Header from "../../components/Header";
 export default function Compare() {
     const [outputs, setOutputs] = useState<{ [key: string]: Output[] }>({})
+    const [title, setTitle] = useState("U.S. Wikipedia Page contents");
+
     const [query, setQuery] = useState("");
     const [loading, setLoading] = useState(false);
     const makeApiCall = async (event: FormEvent<HTMLFormElement>) => {
@@ -21,7 +25,7 @@ export default function Compare() {
         setTimeout(() => {
             setLoading(false);
         }, 100);
-    }
+    };
     return (
         <div className="flex max-w-6xl mx-auto flex-col justify-center py-2 min-h-screen">
             <Header />
@@ -30,10 +34,6 @@ export default function Compare() {
                 <h1 className="font-bold sm:text-3xl text-xl pb-4">
                     Compare Embedding Models
                 </h1>
-                <div className="pb-2">
-                    current document: United States Wikipedia Page
-
-                </div>
                 <form className="space-x-2 pb-2" onSubmit={makeApiCall}>
                     <input
                         type="text"
@@ -53,17 +53,21 @@ export default function Compare() {
                         </button>
                     )}
                 </form>
-                <div className="flex-initial">
+                <div className="pb-2">
+                    Current document: {title}
+                </div>
+                <FileUpload filename={"wqjioe"}/>
+                <div className="flex-initial mt-4">
                     {models.map((model) => (
-                        <div key={model.name} className="flex gap-6 tracking-wide mb-10">
-                            <div className="items-center h-max align-middle">
+                        <div key={model.name} className="flex gap-6 tracking-wide mb-10 w-full">
+                            <div className="h-max items-start">
                                 <h2 className="text-gray-500 text-center">{model.company}</h2>
                                 <h1 className="font-bold text-xl text-gray-950">{model.name}</h1>
                                 <a href={model.link} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Read more</a>
                             </div>
                             <div className="flex gap-2">
                                 {outputs[model.name]?.map((output) => (
-                                    <div key={v4()} className="border-2 border-gray-800 rounded-xl p-2">
+                                    <div key={v4()} className="border-2 border-gray-800 rounded-xl p-2 ">
                                         {output.text}
                                         <div className="text-center text-gray-500 p-2">
                                             Distance: {output.distance}

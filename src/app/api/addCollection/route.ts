@@ -14,6 +14,7 @@ function splitStringIntoChunks(str: string, chunkLength: number): string[] {
 
     return chunks;
 }
+
 export async function POST(req: Request) {
     if (process.env.PROD == "true") {
         throw Error("no collection upload in prod")
@@ -64,15 +65,17 @@ export async function POST(req: Request) {
                 })
                 break;
         }
+        console.log('length', chunks.length);
         await collection.add({
             documents: chunks,
             ids: Array.from({ length: chunks.length }, () => v4())
         })
-        console.log(await collection.query({
-            query_text: "hello",
-            n_results: 1,
-        }))
-    }
-    console.log(await client.listCollections());
+        console.log(model.name, "query")
+        // console.log(await collection.query({
+        //     queryTexts: "hello",
+        //     nResults: 1,
+        // }))
+    };
+    console.log("collections:", await client.listCollections());
     return body;
 } 
