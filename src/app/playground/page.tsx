@@ -71,9 +71,9 @@ export default function Lab() {
                 <div className="col-span-3 sm:col-span-1 sm:border-r-2 border-gray-900 p-6 h-full">
                     <h1 className="font-bold text-3xl mb-5">Collection Options</h1>
                     <form className="flex flex-col items-center space-y-4" onSubmit={onCollectionSubmit}>
-                        <label>
-                            <p>Data Source (.txt, .pdf): <p className="font-bold">{collectionName}</p> </p>
-                            <input type="file" onChange={onFileChange} className="file-input file-input-bordered file-input-xs w-full max-w-xs" />
+                        <label className="tooltip" data-tip="Upload your own data! .txt .pdf">
+                            <div>Data Source: <p className="font-bold">{collectionName}</p> </div>
+                            <input type="file" onChange={onFileChange} className="file-input file-input-bordered file-input-sm w-full max-w-xs" />
                         </label>
 
                         <label>
@@ -87,14 +87,14 @@ export default function Lab() {
                         <label>
                             Retrieval Method
                             <select className="select select-bordered w-full max-w-xs" onChange={e => setRetrievalMethod(e.target.value as RetrievalMethod)}>
-                                <option value="query-similarity">Query Similarity</option>
+                                <option value="query-similarity">Semantic Similarity</option>
                                 <option value="hyde">HYDE</option>
                                 {/* <option value="chunk-summarization">Chunk Summarization</option> */}
                             </select>
                         </label>
                         {/* add info tooltip */}
-                        <label className="w-full">
-                            Chunk Size
+                        <label className="w-full tooltip" data-tip="Max characters in each document">
+                            Chunk Size: {chunkSize}
                             <input type="range" min={100} max={2000} value={chunkSize} onChange={(e) => setChunkSize(parseInt(e.target.value))} className="range" step="100" />
                             <div className="w-full flex justify-between text-xs px-2">
                                 <span>100</span>
@@ -102,7 +102,7 @@ export default function Lab() {
                             </div>
                         </label>
                         <button className="btn max-w-xs" disabled={savingCollection}>Save collection</button>
-                        {optionsChanged ? "Unsaved options" : ""}
+                        {optionsChanged ? "-- Unsaved options --" : ""}
                     </form>
                 </div>
                 <div className="flex flex-col col-span-2 w-full h-full">
