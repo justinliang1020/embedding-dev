@@ -14,7 +14,9 @@ export default function Lab() {
     const [queryContent, setQueryContent] = useState("");
     const [savingCollection, setSavingCollection] = useState(false);
     const [optionsChanged, setOptionsChanged] = useState(false);
+    const [queryLoading, setQueryLoading] = useState(false);
     const firstRender = useRef(true);
+
     useEffect(() => {
         if (firstRender.current) {
             firstRender.current = false;
@@ -22,9 +24,11 @@ export default function Lab() {
         }
         setOptionsChanged(true)
     }, [chunkSize, retrievalMethod, model, file])
+    
     const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         setFile(e.target.files ? e.target.files[0] : null);
     };
+
     const onCollectionSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setSavingCollection(true);
@@ -50,8 +54,10 @@ export default function Lab() {
         setSavingCollection(false);
         console.log(data);
     };
+
     const onQuerySubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setQueryLoading(true);
         const query: Query = {
             content: queryContent,
             collectionId: collectionId
@@ -62,6 +68,7 @@ export default function Lab() {
 
         });
         const data = await res.json();
+        setQueryLoading(false);
         setResults(JSON.parse(data) as Result[]);
     };
     return (
@@ -111,7 +118,7 @@ export default function Lab() {
                     <form className="space-x-2" onSubmit={onQuerySubmit}>
                         <label>Query:</label>
                         <input type="text" className="input input-bordered" value={queryContent} onChange={e => setQueryContent(e.target.value)} />
-                        <button className="btn btn-success" disabled={savingCollection}>Submit</button>
+                        <button className="btn btn-success" disabled={savingCollection || queryLoading}>Submit</button>
                     </form>
                 </div>
             </main>
@@ -122,6 +129,9 @@ export default function Lab() {
 const Carousel = ({ results }: { results: Result[] }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const length = results.length;
+    useEffect(() => {
+        setCurrentIndex(0);
+    }, [results])
 
     const previousSlide = () => {
         setCurrentIndex((currentIndex - 1 + length) % length);

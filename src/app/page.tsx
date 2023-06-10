@@ -31,7 +31,7 @@ export default function Home() {
           <p>open-source, built on <a href="https://www.trychroma.com/" className="link">chroma</a></p>
         </div>
         <div className="flex flex-col sm:flex-row content-center space-y-2 flex-1 w-full items-center justify-center text-center px-4 mt-5 background-gradient">
-          <ModuleCard name="playground" desc="Tinker with different embedding retrieval methods" image={UndrawCompare} />
+          <ModuleCard name="playground" desc="tinker with different embedding retrieval methods using your own data" image={UndrawCompare} />
           <ModuleCard name="eval" desc="coming soon..." image={UndrawScience} />
         </div>
       </main>
