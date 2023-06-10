@@ -81,10 +81,7 @@ export async function POST(req: Request) {
         chunkOverlap: collectionMetadata.chunkSize / 15, //MAGIC NUMBER
         separators: ["\n\n", "\n", " "]
     });
-    // add chunks to collection
-    // for chunk summarization, manually embed the documents using that technique
-    // and use those embeddings to add to the collection
-
+    // TODO: fix chunk summarization, it broken, too slow on large collections
     const texts = await textSplitter.splitText(content);
     switch (collectionMetadata.retrievalMethod) {
         case "chunk-summarization":

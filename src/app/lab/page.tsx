@@ -21,7 +21,7 @@ export default function Lab() {
             return;
         }
         setOptionsChanged(true)
-    }, [chunkSize, retrievalMethod, model])
+    }, [chunkSize, retrievalMethod, model, file])
     const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         setFile(e.target.files ? e.target.files[0] : null);
     };
@@ -68,11 +68,11 @@ export default function Lab() {
         <div className="flex max-w-6xl mx-auto flex-col justify-center py-2 min-h-screen">
             <Header />
             <main className="grid grid-cols-3 flex-1 w-full items-center justify-center text-center px-4 mt-5 background-gradient">
-                <div className="col-span-1 p-6 border border-gray-800 h-full">
+                <div className="col-span-3 sm:col-span-1 sm:border-r-2 border-gray-900 p-6 h-full">
                     <h1 className="font-bold text-3xl mb-5">Collection Options</h1>
                     <form className="flex flex-col items-center space-y-4" onSubmit={onCollectionSubmit}>
                         <label>
-                            Data Source: {collectionName}
+                            <p>Data Source (.txt, .pdf): <p className="font-bold">{collectionName}</p> </p>
                             <input type="file" onChange={onFileChange} className="file-input file-input-bordered file-input-xs w-full max-w-xs" />
                         </label>
 
@@ -105,7 +105,7 @@ export default function Lab() {
                         {optionsChanged ? "Unsaved options" : ""}
                     </form>
                 </div>
-                <div className="flex flex-col col-span-2 border border-gray-800 h-full">
+                <div className="flex flex-col col-span-2 w-full h-full">
                     <h1 className="text-2xl">Results:</h1>
                     <Carousel results={results} />
                     <form className="space-x-2" onSubmit={onQuerySubmit}>
