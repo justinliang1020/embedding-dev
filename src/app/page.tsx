@@ -18,6 +18,7 @@ function ModuleCard({ name, desc, image }: { name: string, desc: string, image: 
     </Link>
   )
 }
+
 export default function Home() {
   return (
     <div className="flex max-w-6xl mx-auto flex-col justify-center py-2 min-h-screen">

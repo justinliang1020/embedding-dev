@@ -71,6 +71,7 @@ export default function Lab() {
         setQueryLoading(false);
         setResults(JSON.parse(data) as Result[]);
     };
+
     return (
         <div className="flex max-w-6xl mx-auto flex-col justify-center py-2 min-h-screen">
             <Header />

@@ -22,5 +22,3 @@ npm run dev
 
 4. Visit [localhost:3000](localhost:3000)
 
-5. (optional) add your own document by visiting [localhost:3000/addCollection](localhost:3000/addCollection
-)
