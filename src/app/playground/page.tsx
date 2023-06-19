@@ -75,9 +75,27 @@ export default function Lab() {
     return (
         <div className="flex max-w-6xl mx-auto flex-col justify-center py-2 min-h-screen">
             <Header />
+            <dialog id="my_modal_2" className="modal">
+                <form method="dialog" className="modal-box">
+                    <h3 className="font-bold text-lg">What is this?</h3>
+                    <p className="py-4">This site allows you to compare different retrieval methods while using vector databases. Retrieval is a fundamental part of building LLM apps with context through methods such as Retrieval Augmented Generation (RAG)</p>
+                    <h3 className="font-bold text-lg">What do the different options mean?</h3>
+                    <p className="py-4">Data source: data source to chunk and retrieve from. Accepts .txt or .pdf files</p>
+                    <p className="py-4">Embedding model: currently supports OpenAI and Google Palm text embedding models</p>
+                    <p className="py-4">Retrieval method: Semantic similarity embeds the query and compares it to the chunked embeddings, returning the most similar chunks. HYDE, Hypothetical Document Embedding, generates a hypothetical answer for the query, and then embeds that instead of the original query to semnatically compare to the chunks.</p>
+                    <p className="py-4">Chunk size: length for Langchain character text splitter</p>
+                    <p className="py-4">Press ESC key or click outside to close</p>
+                </form>
+                <form method="dialog" className="modal-backdrop">
+                    <button>close</button>
+                </form>
+            </dialog>
             <main className="grid grid-cols-3 flex-1 w-full items-center justify-center text-center px-4 mt-5 background-gradient">
                 <div className="col-span-3 sm:col-span-1 sm:border-r-2 border-gray-900 p-6 h-full">
-                    <h1 className="font-bold text-3xl mb-5">Collection Options</h1>
+                    <div className="flex flex-row items-center justify-center">
+                        <h1 className="font-bold text-3xl mb-5 p-2">Options</h1>
+                        <button className="btn" onClick={()=>window.my_modal_2.showModal()}>help</button>
+                    </div>
                     <form className="flex flex-col items-center space-y-4" onSubmit={onCollectionSubmit}>
                         <label className="tooltip" data-tip="Upload your own data! .txt .pdf">
                             <div>Data Source: <p className="font-bold">{collectionName}</p> </div>
