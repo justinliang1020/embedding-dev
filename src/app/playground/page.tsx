@@ -16,7 +16,13 @@ export default function Lab() {
     const [optionsChanged, setOptionsChanged] = useState(false);
     const [queryLoading, setQueryLoading] = useState(false);
     const firstRender = useRef(true);
+    const modalRef = useRef<HTMLDialogElement>(null);
 
+    const openModal = () => {
+        if (modalRef.current !== undefined && modalRef.current !== null) {
+            modalRef.current.showModal();
+        }
+    };
     useEffect(() => {
         if (firstRender.current) {
             firstRender.current = false;
@@ -75,7 +81,7 @@ export default function Lab() {
     return (
         <div className="flex max-w-6xl mx-auto flex-col justify-center py-2 min-h-screen">
             <Header />
-            <dialog id="my_modal_2" className="modal">
+            <dialog id="my_modal_2" ref={modalRef} className="modal">
                 <form method="dialog" className="modal-box">
                     <h3 className="font-bold text-lg">What is this?</h3>
                     <p className="py-4">This site allows you to compare different retrieval methods while using vector databases. Retrieval is a fundamental part of building LLM apps with context through methods such as Retrieval Augmented Generation (RAG)</p>
@@ -94,7 +100,7 @@ export default function Lab() {
                 <div className="col-span-3 sm:col-span-1 sm:border-r-2 border-gray-900 p-6 h-full">
                     <div className="flex flex-row items-center justify-center">
                         <h1 className="font-bold text-3xl mb-5 p-2">Options</h1>
-                        <button className="btn" onClick={()=>window.my_modal_2.showModal()}>help</button>
+                        <button className="btn" onClick={openModal}>help</button>
                     </div>
                     <form className="flex flex-col items-center space-y-4" onSubmit={onCollectionSubmit}>
                         <label className="tooltip" data-tip="Upload your own data! .txt .pdf">
